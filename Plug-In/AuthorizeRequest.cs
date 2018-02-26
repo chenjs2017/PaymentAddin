@@ -11,86 +11,9 @@ using System.Net.Http;
 using System.IO;
 namespace Plug_Ins
 {
-    public class AuthorizeConnector
-    {
-        public static string getToken(Action<string> action, string apiLoginId, string transactionKey, string amount)
-        {
-            string token = "fake";
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://apitest.authorize.net/xml/v1/request.api");
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-                //json to object, change value, serize to json
-                AuthorizeRequest request = AuthorizeRequest.CreateBySkelet();
-                request.getHostedPaymentPageRequest.merchantAuthentication.name = apiLoginId;
-                request.getHostedPaymentPageRequest.merchantAuthentication.transactionKey = transactionKey;
-                request.getHostedPaymentPageRequest.transactionRequest.amount = amount;
-               
-                string json = request.ToJson();
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
-
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-                AuthorizeResponse response = JObject.Parse(result).ToObject<AuthorizeResponse>();
-                if (response.messages.resultCode == AuthorizeResponse.RESULT_OK)
-                {
-                    token = response.token;
-                }
-                else
-                {
-                    action(result);
-                }
-            }
-
-            action("token is :" + token);
-            return token;
-        }
-    }
-
-    /*{
-  "token": "FCfc6VbKGFztf8g4sI0B1bG35quHGGlnJx7G8zRpqV0gha2862KkqRQ/NaGa6y2SIhueCAsP/CQKQDQ0QJr8mOfnZD2D0EfogSWP6tQvG3xlv1LS28wFKZHt2U/DSH64eA3jLIwEdU+++++++++++++shortened_for_brevity++++++++WC1mNVQNKv2Z+ 1msH4oiwoXVleb2Q7ezqHYl1FgS8jDAYzA7ls+AYf05s=.89nE4Beh",
-  "messages": {
-    "resultCode": "Ok",
-    "message": [
-      {
-        "code": "I00001",
-        "text": "Successful."
-      }
-    ]
-  }
-}*/
-    public class AuthorizeResponse
-    {
-        public const string RESULT_OK="Ok";
-        public string token { get; set; }
-        public Messages messages { get; set; }
-    }
-
-    public class Messages
-    {
-        public string resultCode { get; set; }
-        public Message[] message { get; set; }
-    }
-
-    public class Message
-    {
-        public string code { get; set; }
-        public string text { get; set; }
-    }
-
-
-
-
     public class AuthorizeRequest
     {
-        public  static AuthorizeRequest CreateBySkelet()
+        public static AuthorizeRequest CreateBySkelet()
         {
             return JObject.Parse(Skelet).ToObject<AuthorizeRequest>();
         }
@@ -124,11 +47,8 @@ namespace Plug_Ins
         ""country"": """"
       }
     },
-    ""hostedPaymentSettings"": {
-      ""setting"": [{
-        ""settingName"": ""hostedPaymentReturnOptions"",
-        ""settingValue"": ""{\""showReceipt\"": true, \""url\"": \""https://mysite.com/receipt\"", \""urlText\"": \""Continue\"", \""cancelUrl\"": \""https://mysite.com/cancel\"", \""cancelUrlText\"": \""Cancel\""}""
-      }, {
+    ""hostedPaymentSettings"":{
+       ""setting"": [{
         ""settingName"": ""hostedPaymentButtonOptions"",
         ""settingValue"": ""{\""text\"": \""Pay\""}""
       }, {
@@ -152,9 +72,6 @@ namespace Plug_Ins
       }, {
         ""settingName"": ""hostedPaymentOrderOptions"",
         ""settingValue"": ""{\""show\"": true, \""merchantName\"": \""G and S Questions Inc.\""}""
-      }, {
-        ""settingName"": ""hostedPaymentIFrameCommunicatorUrl"",
-        ""settingValue"": ""{\""url\"": \""https://mysite.com/special\""}""
       }]
     }
   }
@@ -208,13 +125,18 @@ namespace Plug_Ins
 
     public class Hostedpaymentsettings
     {
-        public Setting[] setting { get; set; }
+        public List<Setting> setting { get; set; }
     }
-
     public class Setting
     {
+        public static Setting Create(string name, string value)
+        {
+            Setting s = new Setting();
+            s.settingName = name;
+            s.settingValue = value;
+            return s;
+        }
         public string settingName { get; set; }
         public string settingValue { get; set; }
     }
-
 }

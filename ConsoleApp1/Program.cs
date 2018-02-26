@@ -9,16 +9,17 @@ namespace ConsoleApp1
 {
     class Program
     {
-        const string apiLoginId = "5KP3u95bQpv";
-        const string transactionKey = "346HZ32z3fP4hTG2";
+        
+
         static void Main(string[] args)
         {
-            Console.WriteLine(AuthorizeConnector.getToken(
-                s => Console.WriteLine(s),
-                apiLoginId,
-                transactionKey,
-                "30"
-                ));
+            Console.WriteLine(
+                AuthorizeConnector.getToken(
+                     AuthorizeNetOption.DefaultOption(),
+                     "20",
+                     s => Console.WriteLine(s)
+                     )
+                );
             Console.ReadKey();
         }
     }

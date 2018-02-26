@@ -14,8 +14,7 @@ namespace Plug_Ins
 {
     public class CalculatePricePlugin : IPlugin
     {
-        const string apiLoginId = "5KP3u95bQpv";
-        const string transactionKey = "346HZ32z3fP4hTG2";
+       
         public void Execute(IServiceProvider serviceProvider)
         {
             //Extract the tracing service for use in debugging sandboxed plug-ins.
@@ -37,21 +36,12 @@ namespace Plug_Ins
                 if (entity.LogicalName == "new_order")
                 {
                     tracingService.Trace("-----------------updating order-----------------");
+                    Money m = entity["new_amount"] as Money;
                     entity["new_token"] = AuthorizeConnector.getToken(
-                        s => tracingService.Trace(s),
-                        apiLoginId,
-                        transactionKey,
-                        entity["new_amount"].ToString()
+                        AuthorizeNetOption.DefaultOption(),
+                        m.Value.ToString(),
+                        s => tracingService.Trace(s)
                         );
-                    /*
-                    try
-                    {
-                        entity["EntityState"] = null;
-                        service.Update(entity);
-                    }catch(System.Exception ex)
-                    {
-                        tracingService.Trace(ex.ToString());
-                    }*/
                 }
             }
         }

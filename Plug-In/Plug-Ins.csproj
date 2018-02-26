@@ -68,6 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthorizeRequest.cs" />
+    <Compile Include="AuthorizeNetOption.cs" />
+    <Compile Include="AuthorizeConnector.cs" />
+    <Compile Include="AuthorizeResponse.cs" />
     <Compile Include="Plugin.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Put in main page.js" />
+    <Content Include="Put in succeed and cancel.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -94,16 +101,16 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-  <ItemGroup>
-    <MergeAssemblies Include="$(OutputPath)\Newtonsoft.Json.dll" />
-    <MergeAssemblies Include="$(OutputPath)\Plugin.dll" />
-  </ItemGroup>
-  <PropertyGroup>
-    <OutputAssembly>$(OutputPath)\Plugin.Standalone.dll</OutputAssembly>
-    <Merger Condition="('$(OS)' == 'Windows_NT')">&quot;$(SolutionDir)\packages\ILMerge.2.14.1208\tools\ILMerge.exe&quot;</Merger>
-    <Merger Condition="('$(OS)' != 'Windows_NT')">mono --runtime=v4.0.30319 &quot;$(SolutionDir)\packages\ILRepack.1.25.0\tools\ILRepack.exe&quot;</Merger>
-  </PropertyGroup>
-  <Message Text="MERGING: @(MergeAssemblies->'%(Filename)') into $(OutputAssembly)" Importance="High" />
-  <Exec Command="$(Merger) /out:&quot;$(OutputAssembly)&quot; /keyfile:Keyfile.snk @(MergeAssemblies->'&quot;%(FullPath)&quot;', ' ')" />
-	</Target>
+    <ItemGroup>
+      <MergeAssemblies Include="$(OutputPath)\Newtonsoft.Json.dll" />
+      <MergeAssemblies Include="$(OutputPath)\Plugin.dll" />
+    </ItemGroup>
+    <PropertyGroup>
+      <OutputAssembly>$(OutputPath)\Plugin.Standalone.dll</OutputAssembly>
+      <Merger Condition="('$(OS)' == 'Windows_NT')">"$(SolutionDir)\packages\ILMerge.2.14.1208\tools\ILMerge.exe"</Merger>
+      <Merger Condition="('$(OS)' != 'Windows_NT')">mono --runtime=v4.0.30319 "$(SolutionDir)\packages\ILRepack.1.25.0\tools\ILRepack.exe"</Merger>
+    </PropertyGroup>
+    <Message Text="MERGING: @(MergeAssemblies->'%(Filename)') into $(OutputAssembly)" Importance="High" />
+    <Exec Command="$(Merger) /out:&quot;$(OutputAssembly)&quot; /keyfile:Keyfile.snk @(MergeAssemblies->'&quot;%(FullPath)&quot;', ' ')" />
+  </Target>
 </Project>
