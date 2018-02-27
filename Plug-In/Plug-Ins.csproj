@@ -71,6 +71,7 @@
     <Compile Include="AuthorizeNetOption.cs" />
     <Compile Include="AuthorizeConnector.cs" />
     <Compile Include="AuthorizeResponse.cs" />
+    <Compile Include="CRMUtility.cs" />
     <Compile Include="Plugin.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +82,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Put in signin page.js" />
     <Content Include="Put in main page.js" />
     <Content Include="Put in succeed and cancel.js" />
   </ItemGroup>

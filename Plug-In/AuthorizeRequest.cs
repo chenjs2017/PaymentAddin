@@ -69,9 +69,6 @@ namespace Plug_Ins
       }, {
         ""settingName"": ""hostedPaymentCustomerOptions"",
         ""settingValue"": ""{\""showEmail\"": false, \""requiredEmail\"": false, \""addPaymentProfile\"": true}""
-      }, {
-        ""settingName"": ""hostedPaymentOrderOptions"",
-        ""settingValue"": ""{\""show\"": true, \""merchantName\"": \""G and S Questions Inc.\""}""
       }]
     }
   }

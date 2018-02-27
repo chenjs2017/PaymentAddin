@@ -17,6 +17,7 @@ namespace Plug_Ins
         const string defaultOption = @"{
                 ApiLoginId:'5KP3u95bQpv',
                 TransactionKey:'346HZ32z3fP4hTG2',
+                MerchantName:'Help Jack',
                 IFrameUrl:'https://helpjack.microsoftcrmportals.com/iframecommunicator/',
                 AuthorizeURL:'https://apitest.authorize.net/xml/v1/request.api',
                 SucceedURL:'https://helpjack.microsoftcrmportals.com/succeed/',
@@ -28,10 +29,14 @@ namespace Plug_Ins
         public string AuthorizeURL { get; set; }
         public string SucceedURL { get; set; }
         public string CancelURL { get; set; }
-
+        public string MerchantName { get; set; }
+        public static AuthorizeNetOption LoadFromString(string str)
+        {
+            return JObject.Parse(str).ToObject<AuthorizeNetOption>();
+        }
         public static AuthorizeNetOption DefaultOption()
         {
-            return JObject.Parse(defaultOption).ToObject<AuthorizeNetOption>();
+            return LoadFromString(defaultOption);
         }
     }
 }

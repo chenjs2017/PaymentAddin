@@ -34,13 +34,7 @@ namespace Plug_Ins
                      "hostedPaymentIFrameCommunicatorUrl",
                      "{\"url\": \"" + option.IFrameUrl + "\"}"
                     ));
-                /*
-                {
-                    ""setting"": [{
-        ""settingName"": ""hostedPaymentReturnOptions"",
-                      ""settingValue"": ""{\""showReceipt\"": false, \""url\"": \""https://mysite.com/receipt\"", \""urlText\"": \""Continue\"", \""cancelUrl\"": \""https://mysite.com/cancel\"", \""cancelUrlText\"": \""Cancel Pay\""}""
-      }, */
-
+                
                 request.getHostedPaymentPageRequest.hostedPaymentSettings.setting.Add(Setting.Create(
                      "hostedPaymentReturnOptions",
                      "{\"showReceipt\": true, \"url\": \"" +
@@ -49,6 +43,12 @@ namespace Plug_Ins
                      option.CancelURL +
                      "\", \"cancelUrlText\": \"Cancel Pay\"}"
                     ));
+                request.getHostedPaymentPageRequest.hostedPaymentSettings.setting.Add(Setting.Create(
+                    "hostedPaymentOrderOptions",
+                    "{\"show\": true, \"merchantName\":\"" + option.MerchantName + "\"}"
+                    ));
+                
+
                 string json = request.ToJson();
                 streamWriter.Write(json);
                 streamWriter.Flush();
