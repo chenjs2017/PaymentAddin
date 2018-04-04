@@ -82,7 +82,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Put in signin page.js" />
     <Content Include="Put in main page.js" />
     <Content Include="Put in succeed and cancel.js" />
   </ItemGroup>
@@ -95,13 +94,6 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
   <Target Name="AfterBuild">
     <ItemGroup>
       <MergeAssemblies Include="$(OutputPath)\Newtonsoft.Json.dll" />
@@ -111,8 +103,11 @@
       <OutputAssembly>$(OutputPath)\Plugin.Standalone.dll</OutputAssembly>
       <Merger Condition="('$(OS)' == 'Windows_NT')">"$(SolutionDir)\packages\ILMerge.2.14.1208\tools\ILMerge.exe"</Merger>
       <Merger Condition="('$(OS)' != 'Windows_NT')">mono --runtime=v4.0.30319 "$(SolutionDir)\packages\ILRepack.1.25.0\tools\ILRepack.exe"</Merger>
+      <Reg>$(SolutionDir)\packages\RegistrationTool\RegistrationTool.exe</Reg>
     </PropertyGroup>
     <Message Text="MERGING: @(MergeAssemblies->'%(Filename)') into $(OutputAssembly)" Importance="High" />
     <Exec Command="$(Merger) /out:&quot;$(OutputAssembly)&quot; /keyfile:Keyfile.snk @(MergeAssemblies->'&quot;%(FullPath)&quot;', ' ')" />
+    <Message Text="Registering add-in" Importance="High" />
+    <Exec Command="$(Reg) /PATH=&quot;$(SolutionDir)\reg.xml&quot;" />
   </Target>
 </Project>

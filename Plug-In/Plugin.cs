@@ -15,6 +15,12 @@ namespace Plug_Ins
 {
     public class CalculatePricePlugin : IPlugin
     {       
+        string UnsecureConfig { get; set; }
+        public CalculatePricePlugin(string unsecure, string secure)
+        {
+            UnsecureConfig = unsecure;
+
+        }
         public void Execute(IServiceProvider serviceProvider)
         {
             //Extract the tracing service for use in debugging sandboxed plug-ins.
@@ -37,12 +43,10 @@ namespace Plug_Ins
                 {
                     tracingService.Trace("-----------------updating order-----------------");
                     CRMUtility utility = new CRMUtility(service, s => tracingService.Trace(s));
-                    Entity configEntity = utility.RetriveEntity("new_authorizenetoption","new_name","default","new_option");
-                    string config = configEntity["new_option"] as string;
-                    tracingService.Trace(config);
                     Money m = entity["new_amount"] as Money;
+                    AuthorizeNetOption option = AuthorizeNetOption.LoadFromString(UnsecureConfig);
                     entity["new_token"] = AuthorizeConnector.getToken(
-                        AuthorizeNetOption.DefaultOption(),
+                        option,
                         m.Value.ToString(),
                         s => tracingService.Trace(s)
                         );

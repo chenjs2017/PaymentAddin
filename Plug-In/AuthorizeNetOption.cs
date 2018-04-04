@@ -18,10 +18,10 @@ namespace Plug_Ins
                 ApiLoginId:'5KP3u95bQpv',
                 TransactionKey:'346HZ32z3fP4hTG2',
                 MerchantName:'Help Jack',
-                IFrameUrl:'https://helpjack.microsoftcrmportals.com/iframecommunicator/',
+                IFrameUrl:'https://jackchen.microsoftcrmportals.com/iframecommunicator/',
                 AuthorizeURL:'https://apitest.authorize.net/xml/v1/request.api',
-                SucceedURL:'https://helpjack.microsoftcrmportals.com/succeed/',
-                CancelURL:'https://helpjack.microsoftcrmportals.com/cancel/'
+                SucceedURL:'https://jackchen.microsoftcrmportals.com/succeed/',
+                CancelURL:'https://jackchen.microsoftcrmportals.com/cancel/'
                 }";
         public string ApiLoginId { get; set; }
         public string TransactionKey { get; set; }

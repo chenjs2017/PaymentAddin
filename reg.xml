@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyRegistration>
+  <ConnectionString>Url=https://jackchen.crm.dynamics.com; Username=jack@jackchen.onmicrosoft.com; Password=Dynamic2018; authtype=Office365</ConnectionString>
+  <Registrations>
+    <Registration>
+      <AssemblyPath>C:\Users\JackChen\source\repos\PaymentAddin\Plug-In\bin\Debug\Plugin.Standalone.dll</AssemblyPath>
+      <AssemblySourceType>Database</AssemblySourceType>
+      <IsolationMode>Sandbox</IsolationMode>
+      <Plugins>
+        <Plugin>
+          <PluginName>Plug_Ins.CalculatePricePlugin</PluginName>
+          <Steps>
+            <PluginStep>
+              <Mode>Synchronous</Mode>
+              <Rank>0</Rank>
+              <InvocationSource>Parent</InvocationSource>
+              <PluginMessage>Create</PluginMessage>
+              <PrimaryEntity>new_order</PrimaryEntity>
+              <Stage>PreOperation</Stage>
+              <Deployment>ServerOnly</Deployment>
+			  <UnsecureConfiguration>
+          {
+                ApiLoginId:'5KP3u95bQpv',
+                TransactionKey:'346HZ32z3fP4hTG2',
+                MerchantName:'Help Jack',
+                IFrameUrl:'https://jackchen.microsoftcrmportals.com/iframecommunicator/',
+                AuthorizeURL:'https://apitest.authorize.net/xml/v1/request.api',
+                SucceedURL:'https://jackchen.microsoftcrmportals.com/succeed/',
+                CancelURL:'https://jackchen.microsoftcrmportals.com/cancel/'
+          }
+        </UnsecureConfiguration>
+            </PluginStep>
+          </Steps>
+        </Plugin>
+      </Plugins>
+      <SolutionUniqueName>AuthorizednetPayment</SolutionUniqueName>
+    </Registration>
+  </Registrations>
+</AssemblyRegistration>
